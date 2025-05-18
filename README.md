@@ -1,3 +1,5 @@
+```mysql
+
 create database library_system;
 
 USE library_system;
@@ -43,33 +45,33 @@ userCode varchar(20)
 
 create table borrow(
 id int auto_increment primary key ,
-bookId int not null ,
-userId int not null ,
-administratorId int not null ,
-borrowDate date ,
-shouldReturnDate date,
-returnDate date,
-foreign key(bookId) references book(id),
-foreign key(userId) references user(id),
-foreign key(administratorId) references bookAdministrator(id)
+book_id int not null ,
+user_id int not null ,
+administrator_id int not null ,
+borrow_date date ,
+should_return_date date,
+return_date date,
+foreign key(book_id) references book(id),
+foreign key(user_id) references user(id),
+foreign key(administrator_id) references bookAdministrator(id)
 );
 
 create table bookManage(
 id int auto_increment primary key,
-bookId int not null ,
-managerId int not null ,
-foreign key(bookId) references book(id),
-foreign key(managerId) references bookAdministrator(id)
+book_id int not null ,
+manager_id int not null ,
+foreign key(book_id) references book(id),
+foreign key(manager_id) references bookAdministrator(id)
 
 );
 
 
 create table systemBookManage(
 id int auto_increment primary key,
-bookId int not null ,
-managerId int not null ,
-foreign key(bookId) references book(id),
-foreign key(managerId) references systemAdministrator(id)
+book_id int not null ,
+manager_id int not null ,
+foreign key(book_id) references book(id),
+foreign key(manager_id) references systemAdministrator(id)
 );
 
 create table systemManage(
@@ -104,3 +106,5 @@ insert into book (name, author, publisher, publishDate, type, status) values
 ('天龙八部', '金庸', '生活·读书·新知三联书店', '1994-05-01', '武侠', 'notBorrowed');
 
 
+
+```
