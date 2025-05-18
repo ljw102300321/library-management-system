@@ -15,75 +15,72 @@ drop table book_administrator;
 drop table book;
 -- 图书表
 create table book (
-id int auto_increment primary key ,
-name varchar(20),
-author varchar(20),
-publisher varchar(20),
-publish_date date,
-type varchar(20),
-status enum('isBorrowed', 'notBorrowed') DEFAULT 'notBorrowed'
+        book_id int auto_increment primary key,
+        book_name varchar(20),
+        author varchar(20),
+        publisher varchar(20),
+        publish_date date,
+        type varchar(20),
+        status enum('isBorrowed', 'notBorrowed') default 'notBorrowed'
+);
+
+create table book_administrator (
+        admin_id int auto_increment primary key,
+        admin_name varchar(20),
+        admin_password varchar(20)
+);
+
+create table system_administrator (
+        sysadmin_id int auto_increment primary key,
+        sysadmin_name varchar(20),
+        sysadmin_password varchar(20)
+);
+
+create table user (
+         user_id int auto_increment primary key,
+         username varchar(20),
+         user_password varchar(20)
+);
+
+create table borrow (
+         borrow_id int auto_increment primary key,
+         book_id int not null,
+         user_id int not null,
+         administrator_id int not null,
+         borrow_date date,
+         should_return_date date,
+         return_date date,
+         foreign key (book_id) references book(book_id),
+         foreign key (user_id) references user(user_id),
+         foreign key (administrator_id) references book_administrator(admin_id)
+);
+
+create table book_manage (
+           manage_id int auto_increment primary key,
+           book_id int not null,
+           manager_id int not null,
+           foreign key (book_id) references book(book_id),
+           foreign key (manager_id) references book_administrator(admin_id)
+);
+
+create table system_book_manage (
+           sys_manage_id int auto_increment primary key,
+           book_id int not null,
+           manager_id int not null,
+           foreign key (book_id) references book(book_id),
+           foreign key (manager_id) references system_administrator(sysadmin_id)
+);
+
+create table system_manage (
+            system_manage_id int auto_increment primary key,
+            book_manager_id int not null,
+            system_manager_id int not null,
+            foreign key (book_manager_id) references book_administrator(admin_id),
+            foreign key (system_manager_id) references system_administrator(sysadmin_id)
 );
 
 
-create table book_administrator(
-id int auto_increment primary key ,
-name varchar(20),
-password varchar(20)
-);
-
-create table system_administrator(
-id int auto_increment primary key ,
-name varchar(20),
-password varchar(20)
-);
-
-create table user(
-id int auto_increment primary key ,
-username varchar(20),
-userCode varchar(20)
-);
-
-create table borrow(
-id int auto_increment primary key ,
-book_id int not null ,
-user_id int not null ,
-administrator_id int not null ,
-borrow_date date ,
-should_return_date date,
-return_date date,
-foreign key(book_id) references book(id),
-foreign key(user_id) references user(id),
-foreign key(administrator_id) references book_administrator(id)
-);
-
-create table book_manage(
-id int auto_increment primary key,
-book_id int not null ,
-manager_id int not null ,
-foreign key(book_id) references book(id),
-foreign key(manager_id) references library_system.book_administrator(id)
-
-);
-
-
-create table system_book_manage(
-id int auto_increment primary key,
-book_id int not null ,
-manager_id int not null ,
-foreign key(book_id) references book(id),
-foreign key(manager_id) references system_administrator(id)
-);
-
-create table system_manage(
-id int auto_increment primary key,
-book_manager_id int not null ,
-system_manager_id int not null ,
-foreign key(book_manager_id) references book_administrator(id),
-foreign key(system_manager_id) references system_administrator(id)
-);
-
-
-insert into book (name, author,publisher,publish_date, type, status) values
+insert into book (book_name, author,publisher,publish_date, type, status) values
 ('三体', '刘慈欣', '重庆出版社', '2008-01-01', '科幻', 'notBorrowed'),
 ('平凡的世界', '路遥', '人民文学出版社', '1986-12-01', '文学', 'notBorrowed'),
 ('活着', '余华', '作家出版社', '1993-06-01', '文学', 'notBorrowed'),
