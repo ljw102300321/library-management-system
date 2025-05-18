@@ -5,13 +5,13 @@ create database library_system;
 USE library_system;
 
 
-drop table systemManage;
-drop table systemBookManage;
-drop table bookManage;
+drop table system_manage;
+drop table system_book_manage;
+drop table book_manage;
 drop table borrow;
 drop table user;
-drop table systemAdministrator;
-drop table bookAdministrator;
+drop table system_administrator;
+drop table book_administrator;
 drop table book;
 -- 图书表
 create table book (
@@ -19,19 +19,19 @@ id int auto_increment primary key ,
 name varchar(20),
 author varchar(20),
 publisher varchar(20),
-publishDate date,
+publish_date date,
 type varchar(20),
 status enum('isBorrowed', 'notBorrowed') DEFAULT 'notBorrowed'
 );
 
 
-create table bookAdministrator(
+create table book_administrator(
 id int auto_increment primary key ,
 name varchar(20),
 password varchar(20)
 );
 
-create table systemAdministrator(
+create table system_administrator(
 id int auto_increment primary key ,
 name varchar(20),
 password varchar(20)
@@ -53,37 +53,37 @@ should_return_date date,
 return_date date,
 foreign key(book_id) references book(id),
 foreign key(user_id) references user(id),
-foreign key(administrator_id) references bookAdministrator(id)
+foreign key(administrator_id) references book_administrator(id)
 );
 
-create table bookManage(
+create table book_manage(
 id int auto_increment primary key,
 book_id int not null ,
 manager_id int not null ,
 foreign key(book_id) references book(id),
-foreign key(manager_id) references bookAdministrator(id)
+foreign key(manager_id) references library_system.book_administrator(id)
 
 );
 
 
-create table systemBookManage(
+create table system_book_manage(
 id int auto_increment primary key,
 book_id int not null ,
 manager_id int not null ,
 foreign key(book_id) references book(id),
-foreign key(manager_id) references systemAdministrator(id)
+foreign key(manager_id) references system_administrator(id)
 );
 
-create table systemManage(
+create table system_manage(
 id int auto_increment primary key,
-bookManagerId int not null ,
-systemManagerId int not null ,
-foreign key(bookManagerId) references bookAdministrator(id),
-foreign key(systemManagerId) references systemAdministrator(id)
+book_manager_id int not null ,
+system_manager_id int not null ,
+foreign key(book_manager_id) references book_administrator(id),
+foreign key(system_manager_id) references system_administrator(id)
 );
 
 
-insert into book (name, author, publisher, publishDate, type, status) values
+insert into book (name, author,publisher,publish_date, type, status) values
 ('三体', '刘慈欣', '重庆出版社', '2008-01-01', '科幻', 'notBorrowed'),
 ('平凡的世界', '路遥', '人民文学出版社', '1986-12-01', '文学', 'notBorrowed'),
 ('活着', '余华', '作家出版社', '1993-06-01', '文学', 'notBorrowed'),

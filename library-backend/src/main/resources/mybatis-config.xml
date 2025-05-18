@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--引入外部配置文件:标签里也能写，优先使用外部配置文件-->
+    <properties resource="db.properties"/>
+
+    <settings>
+        <!--开启驼峰命名法：从经典数据库列名A_Column到经典Java属性名的映射-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--标准的日志工厂实现-->
+<!--        <setting name="logImpl" value="STDOUT_LOGGING"/>-->
+                <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
+    <!--typeAliases-->
+    <typeAliases>
+        <!--手动取别名-->
+        <!--        <typeAlias type="org.Lskar.mybatisDemo.pojo.User" alias="User"/>-->
+        <!--自动扫描包，取首字母小写/大写当作别名-->
+        <package name="org.library.pojo"/>
+    </typeAliases>
+
+    <!--环境配置，每次选择一个-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <!--连接池：POOLED-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <mappers>
+        <!--mapper映射文件：使用相对于类路径的资源引用-->
+        <!--        <mapper resource="org/Lskar/mybatisDemo/dao/UserMapper.xml"/>-->
+
+
+        <!--使用class文件绑定注册-->
+        <!--        <mapper class="org.Lskar.mybatisDemo.mapper.UserMapper"/>-->
+
+
+
+        <!--Mapper代理方式，包扫描-->
+        <package name="org.library.mapper"/>
+
+    </mappers>
+
+
+</configuration>
